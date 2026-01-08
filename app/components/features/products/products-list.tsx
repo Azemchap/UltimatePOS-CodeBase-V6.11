@@ -37,7 +37,7 @@ export function ProductsList() {
   }
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading products...</div>
+    return <div className="text-center py-8 text-muted-foreground">Loading products...</div>
   }
 
   if (error) {
@@ -56,7 +56,7 @@ export function ProductsList() {
       {products.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-muted-foreground">
               No products found. Add your first product to get started.
             </p>
             <Button className="mt-4">Add Product</Button>
@@ -71,21 +71,21 @@ export function ProductsList() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-4">SKU</th>
-                    <th className="text-left p-4">Name</th>
-                    <th className="text-left p-4">Type</th>
-                    <th className="text-left p-4">Stock</th>
-                    <th className="text-left p-4">Actions</th>
+                  <tr className="border-b border-border">
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">SKU</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Name</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Type</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Stock</th>
+                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products.map((product) => (
-                    <tr key={product.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="p-4">{product.sku}</td>
-                      <td className="p-4">{product.name}</td>
-                      <td className="p-4 capitalize">{product.type}</td>
-                      <td className="p-4">{product.enableStock ? 'Enabled' : 'Disabled'}</td>
+                    <tr key={product.id} className="border-b border-border hover:bg-accent transition-colors">
+                      <td className="p-4 text-foreground">{product.sku}</td>
+                      <td className="p-4 text-foreground font-medium">{product.name}</td>
+                      <td className="p-4 text-muted-foreground capitalize">{product.type}</td>
+                      <td className="p-4 text-muted-foreground">{product.enableStock ? 'Enabled' : 'Disabled'}</td>
                       <td className="p-4">
                         <div className="flex gap-2">
                           <Button size="sm" variant="outline">
