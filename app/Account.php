@@ -89,7 +89,7 @@ class Account extends Model
     }
 
     /**
-     * Scope a query to only include not closed accounts.
+     * Scope a db query to only include not closed accounts.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder

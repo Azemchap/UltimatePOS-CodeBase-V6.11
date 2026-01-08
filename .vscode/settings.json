@@ -1,0 +1,10 @@
+{
+    "i18n-ally.localesPaths": [
+        "lang",
+        "public/js/lang",
+        "resources/plugins/fullcalendar/locale",
+        "resources/plugins/AdminLTE/plugins/datepicker/locales",
+        "resources/plugins/AdminLTE/plugins/select2/lang",
+        "resources/plugins/jquery-validation-1.16.0/demo/tinymce/themes/simple/langs"
+    ]
+}
