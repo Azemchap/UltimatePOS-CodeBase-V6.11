@@ -26,3 +26,18 @@ npm-debug.log
 /public/docs
 /public/js/skins/
 /public/js/icons/
+
+# TypeScript / TanStack Start
+/dist
+/.vinxi
+.tanstack
+*.tsbuildinfo
+/build
+/.next
+/out
+
+# Dependencies
+node_modules/
+
+# Drizzle
+drizzle.config.ts.timestamp-*
