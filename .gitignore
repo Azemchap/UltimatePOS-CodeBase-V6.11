@@ -30,11 +30,13 @@ npm-debug.log
 # TypeScript / TanStack Start
 /dist
 /.vinxi
+/.output
 .tanstack
 *.tsbuildinfo
 /build
 /.next
 /out
+app.config.timestamp_*
 
 # Dependencies
 node_modules/
