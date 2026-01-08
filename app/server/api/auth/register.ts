@@ -1,4 +1,3 @@
-import { json } from '@tanstack/start'
 import { createAPIFileRoute } from '@tanstack/start/api'
 import { db, users, insertUserSchema } from '@db'
 import { eq } from 'drizzle-orm'
@@ -38,7 +37,10 @@ export const APIRoute = createAPIFileRoute('/api/auth/register')({
         .limit(1)
 
       if (existingUser) {
-        return json({ error: 'Username already exists' }, { status: 409 })
+        return new Response(JSON.stringify({ error: 'Username already exists' }), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       // Hash password
@@ -65,17 +67,25 @@ export const APIRoute = createAPIFileRoute('/api/auth/register')({
       // Remove password from response
       const { password: _, ...userWithoutPassword } = newUser
 
-      return json({
+      return new Response(JSON.stringify({
         user: userWithoutPassword,
         token,
+      }), {
+        headers: { 'Content-Type': 'application/json' }
       })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
+        return new Response(JSON.stringify({ error: 'Invalid request data', details: error.format() }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       console.error('Registration error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
   },
 })

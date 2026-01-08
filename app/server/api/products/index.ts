@@ -1,4 +1,4 @@
-import { json } from '@tanstack/start'
+
 import { createAPIFileRoute } from '@tanstack/start/api'
 import { db, products, insertProductSchema } from '@db'
 import { eq, and, like, desc } from 'drizzle-orm'
@@ -18,7 +18,7 @@ export const APIRoute = createAPIFileRoute('/api/products')({
       // Verify authentication
       const authHeader = request.headers.get('Authorization')
       if (!authHeader?.startsWith('Bearer ')) {
-        return json({ error: 'Unauthorized' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
       }
 
       const token = authHeader.substring(7)
@@ -56,17 +56,19 @@ export const APIRoute = createAPIFileRoute('/api/products')({
         .limit(params.limit)
         .offset(offset)
 
-      return json({
+      return new Response(JSON.stringify({
         data: items,
         pagination: {
           page: params.page,
           limit: params.limit,
           total: items.length,
         },
+      }), {
+        headers: { 'Content-Type': 'application/json' }
       })
     } catch (error) {
       console.error('Get products error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
   },
 
@@ -75,7 +77,7 @@ export const APIRoute = createAPIFileRoute('/api/products')({
       // Verify authentication
       const authHeader = request.headers.get('Authorization')
       if (!authHeader?.startsWith('Bearer ')) {
-        return json({ error: 'Unauthorized' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
       }
 
       const token = authHeader.substring(7)
@@ -93,14 +95,14 @@ export const APIRoute = createAPIFileRoute('/api/products')({
         })
         .returning()
 
-      return json({ data: newProduct }, { status: 201 })
+      return new Response(JSON.stringify({ data: newProduct }), { status: 201, headers: { 'Content-Type': 'application/json' } })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
+        return new Response(JSON.stringify({ error: 'Invalid request data', details: error.format() }), { status: 400, headers: { 'Content-Type': 'application/json' } })
       }
 
       console.error('Create product error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
   },
 })

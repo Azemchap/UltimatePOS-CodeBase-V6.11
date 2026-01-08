@@ -1,4 +1,4 @@
-import { json } from '@tanstack/start'
+
 import { createAPIFileRoute } from '@tanstack/start/api'
 import { db, products, insertProductSchema } from '@db'
 import { eq } from 'drizzle-orm'
@@ -11,7 +11,7 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
       // Verify authentication
       const authHeader = request.headers.get('Authorization')
       if (!authHeader?.startsWith('Bearer ')) {
-        return json({ error: 'Unauthorized' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
       }
 
       await verifyToken(authHeader.substring(7))
@@ -20,13 +20,15 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
       const [product] = await db.select().from(products).where(eq(products.id, id)).limit(1)
 
       if (!product) {
-        return json({ error: 'Product not found' }, { status: 404 })
+        return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
       }
 
-      return json({ data: product })
+      return new Response(JSON.stringify({ data: product }), {
+        headers: { 'Content-Type': 'application/json' }
+      })
     } catch (error) {
       console.error('Get product error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
   },
 
@@ -35,7 +37,7 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
       // Verify authentication
       const authHeader = request.headers.get('Authorization')
       if (!authHeader?.startsWith('Bearer ')) {
-        return json({ error: 'Unauthorized' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
       }
 
       await verifyToken(authHeader.substring(7))
@@ -51,17 +53,19 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
         .returning()
 
       if (!updatedProduct) {
-        return json({ error: 'Product not found' }, { status: 404 })
+        return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
       }
 
-      return json({ data: updatedProduct })
+      return new Response(JSON.stringify({ data: updatedProduct }), {
+        headers: { 'Content-Type': 'application/json' }
+      })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
+        return new Response(JSON.stringify({ error: 'Invalid request data', details: error.format() }), { status: 400, headers: { 'Content-Type': 'application/json' } })
       }
 
       console.error('Update product error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
   },
 
@@ -70,7 +74,7 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
       // Verify authentication
       const authHeader = request.headers.get('Authorization')
       if (!authHeader?.startsWith('Bearer ')) {
-        return json({ error: 'Unauthorized' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } })
       }
 
       await verifyToken(authHeader.substring(7))
@@ -82,13 +86,15 @@ export const APIRoute = createAPIFileRoute('/api/products/$id')({
         .returning()
 
       if (!deletedProduct) {
-        return json({ error: 'Product not found' }, { status: 404 })
+        return new Response(JSON.stringify({ error: 'Product not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } })
       }
 
-      return json({ data: deletedProduct })
+      return new Response(JSON.stringify({ data: deletedProduct }), {
+        headers: { 'Content-Type': 'application/json' }
+      })
     } catch (error) {
       console.error('Delete product error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
     }
   },
 })

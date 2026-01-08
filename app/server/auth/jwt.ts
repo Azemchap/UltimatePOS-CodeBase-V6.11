@@ -9,6 +9,7 @@ export interface JWTPayload {
   userId: number
   username: string
   email?: string
+  [key: string]: unknown
 }
 
 export async function signToken(user: User): Promise<string> {

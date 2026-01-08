@@ -5,4 +5,4 @@ import { createRouter } from './router'
 export default createStartHandler({
   createRouter,
   getRouterManifest,
-})(defaultStreamHandler)
+} as any)(defaultStreamHandler as any)

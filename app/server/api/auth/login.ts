@@ -1,4 +1,3 @@
-import { json } from '@tanstack/start'
 import { createAPIFileRoute } from '@tanstack/start/api'
 import { db, users } from '@db'
 import { eq } from 'drizzle-orm'
@@ -21,19 +20,28 @@ export const APIRoute = createAPIFileRoute('/api/auth/login')({
       const [user] = await db.select().from(users).where(eq(users.username, username)).limit(1)
 
       if (!user) {
-        return json({ error: 'Invalid credentials' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       // Verify password
       const isValid = await verifyPassword(password, user.password)
 
       if (!isValid) {
-        return json({ error: 'Invalid credentials' }, { status: 401 })
+        return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       // Check if user is active
       if (!user.isActive) {
-        return json({ error: 'Account is inactive' }, { status: 403 })
+        return new Response(JSON.stringify({ error: 'Account is inactive' }), {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       // Generate JWT token
@@ -42,17 +50,25 @@ export const APIRoute = createAPIFileRoute('/api/auth/login')({
       // Remove password from response
       const { password: _, ...userWithoutPassword } = user
 
-      return json({
+      return new Response(JSON.stringify({
         user: userWithoutPassword,
         token,
+      }), {
+        headers: { 'Content-Type': 'application/json' }
       })
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return json({ error: 'Invalid request data', details: error.errors }, { status: 400 })
+        return new Response(JSON.stringify({ error: 'Invalid request data', details: error.format() }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
       console.error('Login error:', error)
-      return json({ error: 'Internal server error' }, { status: 500 })
+      return new Response(JSON.stringify({ error: 'Internal server error' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
   },
 })
