@@ -1,10 +1,11 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, Scripts } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import { useTheme } from '../stores/theme-store'
 import '../styles/globals.css'
 
 export const Route = createRootRoute({
   component: RootComponent,
+  notFoundComponent: () => <div>Page Not Found</div>,
 })
 
 function RootComponent() {
@@ -28,6 +29,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <Scripts />
       </body>
     </html>
   )

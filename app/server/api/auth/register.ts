@@ -1,23 +1,20 @@
 import { createAPIFileRoute } from '@tanstack/start/api'
-import { db, users, insertUserSchema } from '@db'
+import { db, users } from '@db'
 import { eq } from 'drizzle-orm'
 import { hashPassword } from '../../auth/password'
 import { signToken } from '../../auth/jwt'
 import { z } from 'zod'
 
-const registerSchema = insertUserSchema
-  .pick({
-    surname: true,
-    firstName: true,
-    lastName: true,
-    username: true,
-    email: true,
-    language: true,
-  })
-  .extend({
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z.string(),
-  })
+const registerSchema = z.object({
+  surname: z.string().min(1, 'Surname is required'),
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().optional(),
+  username: z.string().min(1, 'Username is required'),
+  email: z.string().email('Invalid email').optional(),
+  language: z.string().default('en'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string(),
+})
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'],
