@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Button } from '../../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../../ui/table'
 import { useAuthStore } from '../../../stores/auth-store'
 import type { Product } from '@db/schema'
 
@@ -37,7 +45,7 @@ export function ProductsList() {
   }
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading products...</div>
+    return <div className="text-center py-8 text-muted-foreground">Loading products...</div>
   }
 
   if (error) {
@@ -56,7 +64,7 @@ export function ProductsList() {
       {products.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-muted-foreground">
               No products found. Add your first product to get started.
             </p>
             <Button className="mt-4">Add Product</Button>
@@ -67,40 +75,38 @@ export function ProductsList() {
           <CardHeader>
             <CardTitle>Product List</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left p-4">SKU</th>
-                    <th className="text-left p-4">Name</th>
-                    <th className="text-left p-4">Type</th>
-                    <th className="text-left p-4">Stock</th>
-                    <th className="text-left p-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="p-4">{product.sku}</td>
-                      <td className="p-4">{product.name}</td>
-                      <td className="p-4 capitalize">{product.type}</td>
-                      <td className="p-4">{product.enableStock ? 'Enabled' : 'Disabled'}</td>
-                      <td className="p-4">
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
-                            Edit
-                          </Button>
-                          <Button size="sm" variant="destructive">
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>SKU</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell className="font-mono">{product.sku}</TableCell>
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell className="capitalize">{product.type}</TableCell>
+                    <TableCell>{product.enableStock ? 'Enabled' : 'Disabled'}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="outline">
+                          Edit
+                        </Button>
+                        <Button size="sm" variant="destructive">
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}

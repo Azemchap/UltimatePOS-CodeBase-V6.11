@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import { useTheme } from '../stores/theme-store'
 import '../styles/globals.css'
 
 export const Route = createRootRoute({
@@ -7,6 +8,9 @@ export const Route = createRootRoute({
 })
 
 function RootComponent() {
+  // Initialize theme
+  useTheme()
+
   return (
     <RootDocument>
       <Outlet />
