@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Button } from '../../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../../ui/table'
 import { useAuthStore } from '../../../stores/auth-store'
 import type { Product } from '@db/schema'
 
@@ -67,40 +75,38 @@ export function ProductsList() {
           <CardHeader>
             <CardTitle>Product List</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">SKU</th>
-                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Name</th>
-                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Type</th>
-                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Stock</th>
-                    <th className="text-left p-4 text-sm font-medium text-muted-foreground">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id} className="border-b border-border hover:bg-accent transition-colors">
-                      <td className="p-4 text-foreground">{product.sku}</td>
-                      <td className="p-4 text-foreground font-medium">{product.name}</td>
-                      <td className="p-4 text-muted-foreground capitalize">{product.type}</td>
-                      <td className="p-4 text-muted-foreground">{product.enableStock ? 'Enabled' : 'Disabled'}</td>
-                      <td className="p-4">
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
-                            Edit
-                          </Button>
-                          <Button size="sm" variant="destructive">
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>SKU</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell className="font-mono">{product.sku}</TableCell>
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell className="capitalize">{product.type}</TableCell>
+                    <TableCell>{product.enableStock ? 'Enabled' : 'Disabled'}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="outline">
+                          Edit
+                        </Button>
+                        <Button size="sm" variant="destructive">
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       )}
