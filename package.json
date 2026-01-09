@@ -35,7 +35,8 @@
       "@tanstack/react-start-server": "1.120.19",
       "@tanstack/react-start-client": "1.120.19",
       "@tanstack/start-client-core": "1.120.19",
-      "@tanstack/router-core": "1.120.19"
+      "@tanstack/router-core": "1.120.19",
+      "h3": "^1.13.0"
     }
   },
   "dependencies": {

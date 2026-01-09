@@ -2,7 +2,9 @@ import { createStartHandler, defaultStreamHandler } from '@tanstack/start/server
 import { getRouterManifest } from '@tanstack/start/router-manifest'
 import { createRouter } from './router'
 
-export default createStartHandler({
+const handler = createStartHandler({
   createRouter,
   getRouterManifest,
-} as any)(defaultStreamHandler as any)
+})
+
+export default handler(defaultStreamHandler)
