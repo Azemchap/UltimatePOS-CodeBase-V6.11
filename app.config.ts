@@ -8,6 +8,9 @@ export default defineConfig({
         projects: ['./tsconfig.json'],
       }),
     ],
+    css: {
+      postcss: './postcss.config.js',
+    },
   },
   server: {
     preset: 'node-server',
