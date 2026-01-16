@@ -30,13 +30,13 @@
     "overrides": {
       "@tanstack/server-functions-plugin": "1.120.17",
       "@tanstack/react-start-plugin": "1.120.17",
+      "@tanstack/start-plugin-core": "1.120.17",
       "@tanstack/router-plugin": "1.120.20",
+      "@tanstack/react-start-server": "1.120.20",
+      "@tanstack/react-start-client": "1.120.20",
       "@tanstack/start-server-core": "1.120.19",
-      "@tanstack/react-start-server": "1.120.19",
-      "@tanstack/react-start-client": "1.120.19",
       "@tanstack/start-client-core": "1.120.19",
-      "@tanstack/router-core": "1.120.19",
-      "h3": "^1.13.0"
+      "@tanstack/router-core": "1.120.19"
     }
   },
   "dependencies": {

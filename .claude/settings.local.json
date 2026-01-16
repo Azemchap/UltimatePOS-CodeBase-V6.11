@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm run type-check:*)",
       "Bash(curl:*)",
-      "Bash(pnpm install:*)"
+      "Bash(pnpm install:*)",
+      "Bash(npm view:*)"
     ]
   }
 }
